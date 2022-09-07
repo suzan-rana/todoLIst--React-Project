@@ -3,26 +3,31 @@ import Form from './components/Form'
 import TodoList from './components/TodoList'
 import './App.css'
 
+
+
 const App = () => {
-  // useEffect( () => {
-
-
-  //   localStorage.setItem('todos', JSON.stringify(todos));
-  //   const todosLocal = JSON.parse(localStorage.getItem('todos'))
-  //   setTodos( [ ...todos, todosLocal ])
-
-    
-  // }, [todos])
+ 
+  const getLocalData = () => {
+    let data = JSON.parse(localStorage.getItem('todos'))  || []
+    return data;
+  }
 
   // states 
   const [ inputText, setInputText ] = useState('');
-  const [ todos, setTodos ] = useState([]);
+  const [ todos, setTodos ] = useState(getLocalData);
 
-  
-  
+
+  useEffect( () => {
+    if(todos) {
+      localStorage.setItem('todos', JSON.stringify(todos))  
+    }
+    
+  }, [todos])
+
+
   return (
-    <div>
-      <header>TodoList by Suzan Rana</header>
+    <div className='App'>
+      <header>TodoList</header>
       <Form todos={todos} setTodos={setTodos} inputText={inputText} setInputText={setInputText} />
       <TodoList todos= {todos} setTodos={setTodos} />
     </div>
